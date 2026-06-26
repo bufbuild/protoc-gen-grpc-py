@@ -1,0 +1,67 @@
+#:schema https://json.schemastore.org/partial-poe.json
+
+[tasks.format]
+help = "Apply all possible auto-formatting to files"
+sequence = ["format-python", "format-toml"]
+
+[tasks.format-python]
+help = "Apply auto-formatting to Python files"
+sequence = [
+  { cmd = "ruff check --fix --unsafe-fixes --exit-zero" },
+  { cmd = "ruff format" }
+]
+
+[tasks.format-toml]
+help = "Apply auto-formatting to TOML files"
+cmd = "tombi format"
+
+[tasks.generate]
+help = "Generate all stubs"
+sequence = [
+  "generate-test",
+  "generate-example",
+]
+
+[tasks.generate-test]
+help = "Generate stubs for tests"
+cmd = "buf generate"
+
+[tasks.generate-example]
+help = "Generate stubs for example"
+cmd = "buf generate"
+cwd = "example"
+
+[tasks.checkgenerate]
+help = "Used in CI to verify that generate doesn't produce a diff"
+sequence = [
+  "generate",
+  { shell = 'test -z "$(git status --porcelain | tee /dev/stderr)"' },
+]
+
+[tasks.lint]
+help = "Apply all possible linting to files"
+sequence = ["lint-python", "lint-toml", "lint-types"]
+
+[tasks.lint-python]
+help = "Apply linting to Python files"
+sequence = [{ cmd = "ruff check" }, { cmd = "ruff format --check" }]
+
+[tasks.lint-toml]
+help = "Apply linting to TOML files"
+cmd = "tombi lint"
+
+[tasks.lint-types]
+help = "Apply type checking to Python files"
+cmd = "ty check ."
+
+[tasks.test]
+help = "Run unit tests"
+sequence = [{ cmd = "pytest" }, { cmd = "pytest", cwd = "example" }]
+
+[tasks.docs-serve]
+cmd = "uv run --group docs zensical serve"
+help = "Serve documentation locally"
+
+[tasks.docs-build]
+help = "Build documentation site into site/"
+cmd = "uv run --group docs zensical build --clean --strict"

@@ -1,0 +1,5 @@
+* text=auto eol=lf
+
+# Ignore generated files in GitHub diffs by default
+**/*_pb.py linguist-generated=true
+**/*_grpc.py linguist-generated=true

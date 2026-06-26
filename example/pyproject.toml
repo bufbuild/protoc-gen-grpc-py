@@ -1,0 +1,21 @@
+[project]
+name = "example"
+version = "0.0.1"
+requires-python = ">=3.10"
+dependencies = [
+  "grpcio>=1.81",
+  "protobuf-py>=0.1.1",
+]
+
+[dependency-groups]
+dev = [
+  "buf-bin==1.71.0",
+  "protoc-gen-grpc-py>=0.0.1",
+  "protoc-gen-py>=0.0.1",
+  "pytest==9.1.1",
+  "pytest-asyncio==1.4.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.11.2,<0.12"]
+build-backend = "uv_build"
