@@ -22,7 +22,7 @@ Plugs into your existing [grpcio](https://pypi.org/project/grpcio/) channels and
 It's a compatibility layer for projects already built on [grpcio](https://pypi.org/project/grpcio/): the generated clients and servicers plug into your existing gRPC channels and servers, but serialize `protobuf-py` messages directly — so you can upgrade to a better Protobuf without touching your RPC stack.
 
 > [!TIP]
-> For new projects, we use [Connect for Python](https://github.com/connectrpc/connect-py) instead. Connect speaks the gRPC and gRPC-Web protocols in addition to its own, so existing gRPC clients can call a Connect server unchanged. But you also get plain-HTTP APIs you can `curl`, first-class streaming, and generated clients for **every major language**, including your frontend. `protoc-gen-grpc-py` exists so current gRPC codebases can get the improvements of `protobuf-py` today.
+> For new projects, use [Connect for Python](https://github.com/connectrpc/connect-py) instead. Connect speaks the gRPC and gRPC-Web protocols in addition to its own, so existing gRPC clients can call a Connect server unchanged. But you also get plain-HTTP APIs you can `curl`, first-class streaming, and generated clients for **every major language**, including your frontend. `protoc-gen-grpc-py` exists so current gRPC codebases can get the improvements of `protobuf-py` today.
 
 ## Quickstart
 
@@ -60,7 +60,7 @@ A `*_pb_grpc.py` file is generated for each proto file that declares a service. 
 
 ### Well-typed clients you can read
 
-For each service, the plugin emits a client whose methods are fully typed, so editors and type checkers understand every RPC method, its request and response types, and its streaming shape. No stubs package, no `_pb2` modules:
+For each service, the plugin emits a client whose methods are fully typed, so editors and type checkers understand every RPC method, its request and response types, and its streaming shape:
 
 ```python
 async with grpc.aio.insecure_channel("localhost:50051") as channel:
