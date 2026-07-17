@@ -1,28 +1,24 @@
 # protoc-gen-grpc-py
 
-The gRPC code generator plugin for [protobuf-py](https://github.com/bufbuild/protobuf-py).
+[![PyPI version](https://img.shields.io/pypi/v/protoc-gen-grpc-py?style=flat-square)](https://pypi.org/project/protoc-gen-grpc-py)
+[![License](https://img.shields.io/pypi/l/protoc-gen-grpc-py?style=flat-square)](https://github.com/bufbuild/protobuf-py/blob/main/LICENSE)
+[![Slack](https://img.shields.io/badge/slack-buf-%23e01e5a?style=flat-square)](https://buf.build/links/slack)
 
-## Overview
+`protoc-gen-grpc-py` generates **well-typed, idiomatic [gRPC](https://grpc.io) stubs** for [protobuf-py](https://github.com/bufbuild/protobuf-py), the ergonomic and modern Protobuf library for Python.
 
-`protoc-gen-grpc-py` generates fully typed, idiomatic [gRPC](https://grpc.io) clients and servicer that use 
-`protobuf-py` messages for serialization. Unlike the stock gRPC Python plugin, the generated stubs:
+It's a compatibility layer for projects already built on [grpcio](https://pypi.org/project/grpcio/): the generated clients and servicers plug into your existing gRPC channels and servers, but serialize `protobuf-py` messages directly — so you can upgrade to a better Protobuf without touching your RPC stack.
 
-- are fully typed, so editors and type checkers understand every RPC method
-- serialize `protobuf-py` messages directly, with no dependency on the `_pb2` Protobuf runtime
-- ship both asyncio (`grpc.aio`) and synchronous variants.
+> [!TIP]
+> For new projects, we use [Connect for Python](https://github.com/connectrpc/connect-py) instead. Connect speaks the gRPC and gRPC-Web protocols in addition to its own, so existing gRPC clients can call a Connect server unchanged. But you also get plain-HTTP APIs you can `curl`, first-class streaming, and generated clients for **every major language**, including your frontend. `protoc-gen-grpc-py` exists so current gRPC codebases can get the improvements of `protobuf-py` today.
 
-For each service it emits a service base class (with an `add_to_server` method) and a client, in both async and sync flavors (the sync names are suffixed with `Sync`). Message types are generated separately by [`protoc-gen-py`](https://pypi.org/project/protoc-gen-py/).
+## Quickstart
 
-## Installation
-
-The generated code requires the runtime libraries [protobuf-py](https://pypi.org/project/protobuf-py/) and [grpcio](https://pypi.org/project/grpcio/). The plugin is compatible with Protocol Buffer compilers like [buf](https://github.com/bufbuild/buf) and [protoc](https://github.com/protocolbuffers/protobuf/releases).
+Generated code requires the runtime libraries [protobuf-py](https://pypi.org/project/protobuf-py/) and [grpcio](https://pypi.org/project/grpcio/). The plugin works with Protobuf compilers like [buf](https://github.com/bufbuild/buf).
 
 ```shellsession
 $ uv add protobuf-py grpcio
 $ uv add --dev protoc-gen-py protoc-gen-grpc-py buf-bin
 ```
-
-## Generating code
 
 Add `protoc-gen-grpc-py` alongside `protoc-gen-py` in your `buf.gen.yaml`:
 
@@ -45,6 +41,66 @@ To generate code for all Protobuf files within your project, run:
 $ uv run -- buf generate
 ```
 
+A `*_pb_grpc.py` file is generated for each proto file that declares a service. Message types come from [`protoc-gen-py`](https://pypi.org/project/protoc-gen-py/), which also manages `__init__.py` files.
+
+## Feature highlights
+
+### Well-typed clients you can read
+
+For each service, the plugin emits a client whose methods are fully typed, so editors and type checkers understand every RPC method, its request and response types, and its streaming shape. No stubs package, no `_pb2` modules:
+
+```python
+async with grpc.aio.insecure_channel("localhost:50051") as channel:
+    client = ElizaServiceClient(channel)
+    response = await client.say(SayRequest(sentence="Hello!"))
+    print(response.sentence)
+```
+
+### Servicers that register themselves
+
+Each service also gets a servicer base class with typed method signatures and an `add_to_server` method:
+
+```python
+class ElizaService(ElizaServiceServicer):
+    async def say(
+        self, request: SayRequest, context: grpc.aio.ServicerContext
+    ) -> SayResponse:
+        return SayResponse(sentence=f"You said: {request.sentence}")
+
+
+async def serve() -> None:
+    server = grpc.aio.server()
+    ElizaService().add_to_server(server)
+    server.add_insecure_port("[::]:50051")
+    await server.start()
+    await server.wait_for_termination()
+```
+
+### asyncio and sync, side by side
+
+Every client and servicer is generated in both asyncio (`grpc.aio`) and synchronous flavors:
+
+```python
+with grpc.insecure_channel("localhost:50051") as channel:
+    client = ElizaServiceClientSync(channel) #synchronous servicer
+    response = client.say(SayRequest(sentence="Hello!"))
+```
+
+### protobuf-py messages end to end
+
+Requests and responses are [protobuf-py](https://github.com/bufbuild/protobuf-py) messages. They have readable generated code, typed oneofs with pattern matching, real `IntEnum` enums, and a high-performance Rust encoder/decoder, with zero dependency on the legacy `google-protobuf` runtime.
+
+## Generating with protoc
+
+The plugin also works as a standard `protoc` plugin:
+
+```shellsession
+$ uv run protoc --proto_path proto \
+    --py_out src/gen \
+    --grpc-py_out src/gen \
+    proto/a.proto proto/b.proto proto/c.proto
+```
+
 ## Example
 
-See the [gRPC example](https://github.com/bufbuild/protobuf-py/tree/main/examples/grpc) for a complete client and server using the generated stubs.
+See the [gRPC example](https://github.com/bufbuild/protobuf-py/tree/main/examples/grpc) for a complete client and server using the generated stubs, including server, client, and bidirectional streaming.
