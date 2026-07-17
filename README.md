@@ -19,10 +19,10 @@ Plugs into your existing [grpcio](https://pypi.org/project/grpcio/) channels and
 
 </div>
 
-It's a compatibility layer for projects already built on [grpcio](https://pypi.org/project/grpcio/): the generated clients and servicers plug into your existing gRPC channels and servers, but serialize `protobuf-py` messages directly — so you can upgrade to a better Protobuf without touching your RPC stack.
+It's a compatibility layer for projects already built on [grpcio](https://pypi.org/project/grpcio/). The generated clients and servicers plug into your existing gRPC channels and servers, but serialize `protobuf-py` messages directly. This lets you upgrade to a better Protobuf package without touching your RPC stack.
 
 > [!TIP]
-> For new projects, use [Connect for Python](https://github.com/connectrpc/connect-py) instead. Connect speaks the gRPC and gRPC-Web protocols in addition to its own, so existing gRPC clients can call a Connect server unchanged. But you also get plain-HTTP APIs you can `curl`, first-class streaming, and generated clients for **every major language**, including your frontend. `protoc-gen-grpc-py` exists so current gRPC codebases can get the improvements of `protobuf-py` today.
+> For new projects, use [Connect for Python](https://github.com/connectrpc/connect-py) instead. Connect speaks the gRPC and gRPC-Web protocols in addition to its own, so existing gRPC clients can call a Connect server unchanged. But you also get plain HTTP APIs you can `curl`, first-class streaming, and generated clients for **every major language**, including your frontend. `protoc-gen-grpc-py` only exists so current gRPC codebases can get the improvements of `protobuf-py` today without a full rewrite.
 
 ## Quickstart
 
