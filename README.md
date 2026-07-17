@@ -103,12 +103,10 @@ with grpc.insecure_channel("localhost:50051") as channel:
 
 Requests and responses are [protobuf-py](https://github.com/bufbuild/protobuf-py) messages. They have readable generated code, typed oneofs with pattern matching, real `IntEnum` enums, and a high-performance Rust encoder/decoder, with zero dependency on the legacy `google-protobuf` runtime.
 
-## Generating with protoc
-
-The plugin also works with [protoc](https://github.com/protocolbuffers/protobuf/releases) as a standard `protoc` plugin.
-
 <details>
-<summary>Click here for an example.</summary>
+<summary><h2>Generating with protoc</h2></summary>
+
+The plugin also works with [protoc](https://github.com/protocolbuffers/protobuf/releases) as a standard `protoc` plugin:
 
 ```shellsession
 $ uv run protoc --proto_path proto \
