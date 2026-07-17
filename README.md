@@ -1,10 +1,23 @@
+<div align="center">
+
+![The Buf logo](https://raw.githubusercontent.com/bufbuild/protoc-gen-grpc-py/main/.github/buf-logo.svg)
+
 # protoc-gen-grpc-py
 
 [![PyPI version](https://img.shields.io/pypi/v/protoc-gen-grpc-py?style=flat-square)](https://pypi.org/project/protoc-gen-grpc-py)
-[![License](https://img.shields.io/pypi/l/protoc-gen-grpc-py?style=flat-square)](https://github.com/bufbuild/protobuf-py/blob/main/LICENSE)
+[![License](https://img.shields.io/pypi/l/protoc-gen-grpc-py?style=flat-square)](https://github.com/bufbuild/protoc-gen-grpc-py/blob/main/LICENSE)
 [![Slack](https://img.shields.io/badge/slack-buf-%23e01e5a?style=flat-square)](https://buf.build/links/slack)
 
 `protoc-gen-grpc-py` generates **well-typed, idiomatic [gRPC](https://grpc.io) stubs** for [protobuf-py](https://github.com/bufbuild/protobuf-py), the ergonomic and modern Protobuf library for Python.
+
+Fully typed clients and servicers you can read. asyncio and sync variants. <br />
+Plugs into your existing [grpcio](https://pypi.org/project/grpcio/) channels and servers.
+
+[Quickstart](#quickstart) •
+[Example](https://github.com/bufbuild/protoc-gen-grpc-py/tree/main/example) •
+[protobuf-py](https://github.com/bufbuild/protobuf-py)
+
+</div>
 
 It's a compatibility layer for projects already built on [grpcio](https://pypi.org/project/grpcio/): the generated clients and servicers plug into your existing gRPC channels and servers, but serialize `protobuf-py` messages directly — so you can upgrade to a better Protobuf without touching your RPC stack.
 
@@ -92,7 +105,10 @@ Requests and responses are [protobuf-py](https://github.com/bufbuild/protobuf-py
 
 ## Generating with protoc
 
-The plugin also works as a standard `protoc` plugin:
+The plugin also works with [protoc](https://github.com/protocolbuffers/protobuf/releases) as a standard `protoc` plugin.
+
+<details>
+<summary>Click here for an example.</summary>
 
 ```shellsession
 $ uv run protoc --proto_path proto \
@@ -101,6 +117,8 @@ $ uv run protoc --proto_path proto \
     proto/a.proto proto/b.proto proto/c.proto
 ```
 
+</details>
+
 ## Example
 
-See the [gRPC example](https://github.com/bufbuild/protobuf-py/tree/main/examples/grpc) for a complete client and server using the generated stubs, including server, client, and bidirectional streaming.
+See the [example](https://github.com/bufbuild/protoc-gen-grpc-py/tree/main/example) for a complete client and server using the generated stubs, including server, client, and bidirectional streaming.
