@@ -25,7 +25,7 @@ classifiers = [
   "Topic :: Software Development :: Code Generators",
 ]
 dependencies = [
-  "protobuf-py==0.1.1",
+  "protobuf-py==0.2.0",
 ]
 
 [project.urls]
@@ -44,7 +44,7 @@ dev = [
   "buf-bin==1.71.0",
   "grpcio==1.81.1",
   "poethepoet==0.46.0",
-  "protoc-gen-py==0.1.1",
+  "protoc-gen-py==0.2.0",
   "pytest==9.1.1",
   "pytest-asyncio==1.4.0",
   "ruff==0.15.18",
