@@ -1,4 +1,4 @@
-# Copyright (c) 2025-2026 Buf Technologies, Inc.
+# Copyright (c) 2026 Buf Technologies, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ from typing import TYPE_CHECKING
 import grpc
 import pytest
 import pytest_asyncio
+
 from protobuf.wkt import Empty
 
 from .gen.connectrpc.example.haberdasher_pb import Hat, Size
