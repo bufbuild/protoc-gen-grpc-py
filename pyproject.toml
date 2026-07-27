@@ -42,15 +42,16 @@ dev = [
   "example",
 
   "buf-bin==1.72.0",
-  "grpcio==1.82.1",
+  "grpcio==1.83.0",
+  "license-header==0.0.1",
   "poethepoet==0.48.0",
   "protoc-gen-py==0.2.0",
   "pytest==9.1.1",
   "pytest-asyncio==1.4.0",
-  "ruff==0.15.22",
+  "ruff==0.16.0",
   "tombi==1.2.4",
-  "ty==0.0.62",
-  "types-grpcio==1.82.1.20260711",
+  "ty==0.0.63",
+  "types-grpcio==1.82.1.20260724",
 ]
 
 docs = ["mkdocstrings-python==2.0.5", "zensical==0.0.51"]
@@ -59,10 +60,83 @@ docs = ["mkdocstrings-python==2.0.5", "zensical==0.0.51"]
 requires = ["uv_build>=0.11.2,<0.12"]
 build-backend = "uv_build"
 
+[tool.licenseheader]
+copyright-holder = "Buf Technologies, Inc."
+year-range = "2026"
+
 [tool.pytest.ini_options]
 asyncio_mode = "strict"
 asyncio_default_fixture_loop_scope = "module"
 asyncio_default_test_loop_scope = "module"
+
+[tool.ruff]
+target-version = "py310"
+
+[tool.ruff.format]
+skip-magic-trailing-comma = true
+docstring-code-format = true
+
+[tool.ruff.lint]
+typing-extensions = false
+select = ["ALL"]
+ignore = [
+  # Rules recommended to ignore when using ruff formatting
+  # https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+  "W191",
+  "E111",
+  "E114",
+  "E117",
+  "E501",
+  "D206",
+  "D300",
+  "Q",
+  "COM812",
+  "COM819",
+
+  "TRY003",  # Avoid specifying long messages outside the exception class
+  "SLF001",  # Private member accessed
+  "ANN401",  # Dynamically typed expressions (typing.Any) are disallowed
+  "PLR2004",  # Magic value used in comparison - not helpful to name obvious constants
+  # Complexity rules: humans reviewing code can judge whether complexity is justified.
+  "C901",  # McCabe complexity
+  "PLR0911",  # Too many return statements
+  "PLR0912",  # Too many branches
+  "PLR0913",  # Too many arguments in function definition
+  "PLR0914",  # Too many local variables
+  "PLR0915",  # Too many statements
+  "PLR0916",  # Too many boolean expressions
+  "PLR1702",  # Too many nested blocks
+
+  # TODO rules
+  "TD",
+  "FIX002",  # Line contains TODO, consider resolving the issue
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/**/*.py" = [
+  # missing docstrings; unnecessary in tests.
+  "D1",
+
+  "ARG002",  # Often don't need to use context
+
+  "INP001",  # File is part of an implicit namespace package
+
+  "FBT001",  # boolean positional args are fine in tests
+  "FBT002",  # boolean default positional args are fine in tests
+  "FBT003",  # boolean positional values are fine in tests
+  "S101",  # assert is expected in tests
+]
+"example/**/*.py" = ["ARG002", "D"]
+
+[tool.ruff.lint.isort]
+required-imports = ["from __future__ import annotations"]
+combine-as-imports = true
+known-first-party = ["tests", "bufbuild", "protobuf", "protoplugin"]
+known-third-party = []
+split-on-trailing-comma = false
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
 
 [tool.uv.sources]
 example = { workspace = true }

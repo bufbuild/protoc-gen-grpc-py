@@ -95,7 +95,7 @@ Every client and servicer is generated in both asyncio (`grpc.aio`) and synchron
 
 ```python
 with grpc.insecure_channel("localhost:50051") as channel:
-    client = ElizaServiceClientSync(channel) #synchronous servicer
+    client = ElizaServiceClientSync(channel)  # synchronous servicer
     response = client.say(SayRequest(sentence="Hello!"))
 ```
 

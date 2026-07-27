@@ -2,7 +2,11 @@
 
 [tasks.format]
 help = "Apply all possible auto-formatting to files"
-sequence = ["format-python", "format-toml"]
+sequence = ["format-license-header", "format-python", "format-toml"]
+
+[tasks.format-license-header]
+help = "Add/update license headers in source files"
+cmd = "license-header"
 
 [tasks.format-python]
 help = "Apply auto-formatting to Python files"
@@ -20,6 +24,7 @@ help = "Generate all stubs"
 sequence = [
   "generate-test",
   "generate-example",
+  "format-license-header",
 ]
 
 [tasks.generate-test]
@@ -40,7 +45,11 @@ sequence = [
 
 [tasks.lint]
 help = "Apply all possible linting to files"
-sequence = ["lint-python", "lint-toml", "lint-types"]
+sequence = ["lint-python", "lint-toml", "lint-types", "lint-license-header"]
+
+[tasks.lint-license-header]
+help = "Check license headers in source files"
+cmd = "license-header --check"
 
 [tasks.lint-python]
 help = "Apply linting to Python files"
