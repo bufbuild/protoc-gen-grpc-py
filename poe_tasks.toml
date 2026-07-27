@@ -24,6 +24,7 @@ help = "Generate all stubs"
 sequence = [
   "generate-test",
   "generate-example",
+  "format",
 ]
 
 [tasks.generate-test]
