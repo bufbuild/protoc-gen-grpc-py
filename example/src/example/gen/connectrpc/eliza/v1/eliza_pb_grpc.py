@@ -42,7 +42,9 @@ class ElizaServiceService:
     distributions.
     """
     async def say(self, request: SayRequest, context: aio.ServicerContext) -> SayResponse:
-        """Say is a unary RPC. Eliza responds to the prompt with a single sentence."""
+        """
+        Say is a unary RPC. Eliza responds to the prompt with a single sentence.
+        """
         context.set_code(StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
@@ -128,7 +130,9 @@ class ElizaServiceClient:
         wait_for_ready: bool | None = None,
         compression: Compression | None = None,
     ) -> aio.UnaryUnaryCall[SayRequest, SayResponse]:
-        """Say is a unary RPC. Eliza responds to the prompt with a single sentence."""
+        """
+        Say is a unary RPC. Eliza responds to the prompt with a single sentence.
+        """
         return self._say(request, timeout=timeout, metadata=metadata, credentials=credentials, wait_for_ready=wait_for_ready, compression=compression)
 
     def converse(
@@ -175,7 +179,9 @@ class ElizaServiceServiceSync:
     distributions.
     """
     def say(self, request: SayRequest, context: ServicerContext) -> SayResponse:
-        """Say is a unary RPC. Eliza responds to the prompt with a single sentence."""
+        """
+        Say is a unary RPC. Eliza responds to the prompt with a single sentence.
+        """
         context.set_code(StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
@@ -261,7 +267,9 @@ class ElizaServiceClientSync:
         wait_for_ready: bool | None = None,
         compression: Compression | None = None,
     ) -> SayResponse:
-        """Say is a unary RPC. Eliza responds to the prompt with a single sentence."""
+        """
+        Say is a unary RPC. Eliza responds to the prompt with a single sentence.
+        """
         return self._say(request, timeout=timeout, metadata=metadata, credentials=credentials, wait_for_ready=wait_for_ready, compression=compression)
 
     def converse(
