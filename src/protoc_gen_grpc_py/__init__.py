@@ -25,17 +25,21 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import TYPE_CHECKING
 
-from protobuf._sanitization import (
-    PYTHON_KEYWORDS,
-    escape_identifier,
+from protobuf.plugin import (
+    File,
+    Ident,
+    Module,
+    Schema,
     escape_public_identifier,
+    get_comments,
+    python_keywords,
+    run,
 )
-from protobuf.plugin import File, Ident, Module, Schema, get_comments, run
 
 if TYPE_CHECKING:
     from protobuf import DescFile, DescMethod, DescService
 
-_RESERVED_METHOD_NAMES = PYTHON_KEYWORDS | {"add_to_server"}
+_RESERVED_METHOD_NAMES = frozenset(python_keywords() | {"add_to_server"})
 
 _COLLECTIONS_ABC = Module("collections.abc")
 _ASYNC_ITERATOR = _COLLECTIONS_ABC.ident("AsyncIterator", type_only=True)
@@ -257,12 +261,12 @@ def _client_return_type(method: DescMethod, *, is_async: bool) -> list[object]:
 
 def _service_name(service: DescService, *, is_async: bool) -> str:
     suffix = "" if is_async else "Sync"
-    return f"{escape_identifier(service.name)}Service{suffix}"
+    return f"{escape_public_identifier(service.name, python_keywords())}Service{suffix}"
 
 
 def _client_name(service: DescService, *, is_async: bool) -> str:
     suffix = "" if is_async else "Sync"
-    return f"{escape_identifier(service.name)}Client{suffix}"
+    return f"{escape_public_identifier(service.name, python_keywords())}Client{suffix}"
 
 
 def _request_stream(method: DescMethod) -> bool:
@@ -324,24 +328,14 @@ def _pascal_to_snake_case(text: str) -> str:
 
 
 def _generate_docstring(f: File, desc: DescService | DescMethod) -> None:
-    comments = get_comments(desc)
-    text = ""
-    if comments.leading:
-        text += comments.leading.removesuffix("\n")
-    if comments.trailing:
-        if text:
-            text += "\n\n"
-        text += comments.trailing.removesuffix("\n")
-    if not text:
+    comment_lines = get_comments(desc).lines()
+
+    if not comment_lines:
         return
-    lines = [line.removeprefix(" ") for line in text.splitlines()]
-    if len(lines) == 1:
-        with f.doc(lines[0]):
-            pass
-    else:
-        with f.doc():
-            for line in lines:
-                f.print(line)
+
+    with f.doc():
+        for line in comment_lines:
+            f.print(line)
 
 
 def main() -> None:

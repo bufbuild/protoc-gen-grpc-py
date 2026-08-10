@@ -34,33 +34,45 @@ if TYPE_CHECKING:
 
 
 class HaberdasherService:
-    """A Haberdasher makes hats for clients."""
+    """
+    A Haberdasher makes hats for clients.
+    """
     async def make_hat(self, request: Size, context: aio.ServicerContext) -> Hat:
-        """MakeHat produces a hat of mysterious, randomly-selected color!"""
+        """
+        MakeHat produces a hat of mysterious, randomly-selected color!
+        """
         context.set_code(StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
 
     async def make_flexible_hat(self, request_iterator: AsyncIterator[Size], context: aio.ServicerContext) -> Hat:
-        """MakeFlexibleHats produces a single hat adhering to many sizes."""
+        """
+        MakeFlexibleHats produces a single hat adhering to many sizes.
+        """
         context.set_code(StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
 
     def make_similar_hats(self, request: Size, context: aio.ServicerContext) -> AsyncIterator[Hat]:
-        """MakeSimilarHats produces hats of mysterious, randomly-selected color following a single order!"""
+        """
+        MakeSimilarHats produces hats of mysterious, randomly-selected color following a single order!
+        """
         context.set_code(StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
 
     def make_various_hats(self, request_iterator: AsyncIterator[Size], context: aio.ServicerContext) -> AsyncIterator[Hat]:
-        """MakeVariousHats produces hats of mysterious, randomly-selected color following many orders!"""
+        """
+        MakeVariousHats produces hats of mysterious, randomly-selected color following many orders!
+        """
         context.set_code(StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
 
     def list_parts(self, request: Empty, context: aio.ServicerContext) -> AsyncIterator[Hat.Part]:
-        """ListParts lists available parts for making a hat."""
+        """
+        ListParts lists available parts for making a hat.
+        """
         context.set_code(StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
@@ -112,7 +124,9 @@ class HaberdasherService:
 
 
 class HaberdasherClient:
-    """A Haberdasher makes hats for clients."""
+    """
+    A Haberdasher makes hats for clients.
+    """
     def __init__(self, channel: aio.Channel) -> None:
         self._make_hat = channel.unary_unary(
             "/connectrpc.example.Haberdasher/MakeHat",
@@ -155,7 +169,9 @@ class HaberdasherClient:
         wait_for_ready: bool | None = None,
         compression: Compression | None = None,
     ) -> aio.UnaryUnaryCall[Size, Hat]:
-        """MakeHat produces a hat of mysterious, randomly-selected color!"""
+        """
+        MakeHat produces a hat of mysterious, randomly-selected color!
+        """
         return self._make_hat(request, timeout=timeout, metadata=metadata, credentials=credentials, wait_for_ready=wait_for_ready, compression=compression)
 
     def make_flexible_hat(
@@ -168,7 +184,9 @@ class HaberdasherClient:
         wait_for_ready: bool | None = None,
         compression: Compression | None = None,
     ) -> aio.StreamUnaryCall[Size, Hat]:
-        """MakeFlexibleHats produces a single hat adhering to many sizes."""
+        """
+        MakeFlexibleHats produces a single hat adhering to many sizes.
+        """
         return self._make_flexible_hat(request_iterator, timeout=timeout, metadata=metadata, credentials=credentials, wait_for_ready=wait_for_ready, compression=compression)
 
     def make_similar_hats(
@@ -181,7 +199,9 @@ class HaberdasherClient:
         wait_for_ready: bool | None = None,
         compression: Compression | None = None,
     ) -> aio.UnaryStreamCall[Size, Hat]:
-        """MakeSimilarHats produces hats of mysterious, randomly-selected color following a single order!"""
+        """
+        MakeSimilarHats produces hats of mysterious, randomly-selected color following a single order!
+        """
         return self._make_similar_hats(request, timeout=timeout, metadata=metadata, credentials=credentials, wait_for_ready=wait_for_ready, compression=compression)
 
     def make_various_hats(
@@ -194,7 +214,9 @@ class HaberdasherClient:
         wait_for_ready: bool | None = None,
         compression: Compression | None = None,
     ) -> aio.StreamStreamCall[Size, Hat]:
-        """MakeVariousHats produces hats of mysterious, randomly-selected color following many orders!"""
+        """
+        MakeVariousHats produces hats of mysterious, randomly-selected color following many orders!
+        """
         return self._make_various_hats(request_iterator, timeout=timeout, metadata=metadata, credentials=credentials, wait_for_ready=wait_for_ready, compression=compression)
 
     def list_parts(
@@ -207,7 +229,9 @@ class HaberdasherClient:
         wait_for_ready: bool | None = None,
         compression: Compression | None = None,
     ) -> aio.UnaryStreamCall[Empty, Hat.Part]:
-        """ListParts lists available parts for making a hat."""
+        """
+        ListParts lists available parts for making a hat.
+        """
         return self._list_parts(request, timeout=timeout, metadata=metadata, credentials=credentials, wait_for_ready=wait_for_ready, compression=compression)
 
     def do_nothing(
@@ -224,33 +248,45 @@ class HaberdasherClient:
 
 
 class HaberdasherServiceSync:
-    """A Haberdasher makes hats for clients."""
+    """
+    A Haberdasher makes hats for clients.
+    """
     def make_hat(self, request: Size, context: ServicerContext) -> Hat:
-        """MakeHat produces a hat of mysterious, randomly-selected color!"""
+        """
+        MakeHat produces a hat of mysterious, randomly-selected color!
+        """
         context.set_code(StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
 
     def make_flexible_hat(self, request_iterator: Iterator[Size], context: ServicerContext) -> Hat:
-        """MakeFlexibleHats produces a single hat adhering to many sizes."""
+        """
+        MakeFlexibleHats produces a single hat adhering to many sizes.
+        """
         context.set_code(StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
 
     def make_similar_hats(self, request: Size, context: ServicerContext) -> Iterator[Hat]:
-        """MakeSimilarHats produces hats of mysterious, randomly-selected color following a single order!"""
+        """
+        MakeSimilarHats produces hats of mysterious, randomly-selected color following a single order!
+        """
         context.set_code(StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
 
     def make_various_hats(self, request_iterator: Iterator[Size], context: ServicerContext) -> Iterator[Hat]:
-        """MakeVariousHats produces hats of mysterious, randomly-selected color following many orders!"""
+        """
+        MakeVariousHats produces hats of mysterious, randomly-selected color following many orders!
+        """
         context.set_code(StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
 
     def list_parts(self, request: Empty, context: ServicerContext) -> Iterator[Hat.Part]:
-        """ListParts lists available parts for making a hat."""
+        """
+        ListParts lists available parts for making a hat.
+        """
         context.set_code(StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
@@ -302,7 +338,9 @@ class HaberdasherServiceSync:
 
 
 class HaberdasherClientSync:
-    """A Haberdasher makes hats for clients."""
+    """
+    A Haberdasher makes hats for clients.
+    """
     def __init__(self, channel: Channel) -> None:
         self._make_hat = channel.unary_unary(
             "/connectrpc.example.Haberdasher/MakeHat",
@@ -345,7 +383,9 @@ class HaberdasherClientSync:
         wait_for_ready: bool | None = None,
         compression: Compression | None = None,
     ) -> Hat:
-        """MakeHat produces a hat of mysterious, randomly-selected color!"""
+        """
+        MakeHat produces a hat of mysterious, randomly-selected color!
+        """
         return self._make_hat(request, timeout=timeout, metadata=metadata, credentials=credentials, wait_for_ready=wait_for_ready, compression=compression)
 
     def make_flexible_hat(
@@ -358,7 +398,9 @@ class HaberdasherClientSync:
         wait_for_ready: bool | None = None,
         compression: Compression | None = None,
     ) -> Hat:
-        """MakeFlexibleHats produces a single hat adhering to many sizes."""
+        """
+        MakeFlexibleHats produces a single hat adhering to many sizes.
+        """
         return self._make_flexible_hat(request_iterator, timeout=timeout, metadata=metadata, credentials=credentials, wait_for_ready=wait_for_ready, compression=compression)
 
     def make_similar_hats(
@@ -371,7 +413,9 @@ class HaberdasherClientSync:
         wait_for_ready: bool | None = None,
         compression: Compression | None = None,
     ) -> _CallIterator[Hat]:
-        """MakeSimilarHats produces hats of mysterious, randomly-selected color following a single order!"""
+        """
+        MakeSimilarHats produces hats of mysterious, randomly-selected color following a single order!
+        """
         return self._make_similar_hats(request, timeout=timeout, metadata=metadata, credentials=credentials, wait_for_ready=wait_for_ready, compression=compression)
 
     def make_various_hats(
@@ -384,7 +428,9 @@ class HaberdasherClientSync:
         wait_for_ready: bool | None = None,
         compression: Compression | None = None,
     ) -> _CallIterator[Hat]:
-        """MakeVariousHats produces hats of mysterious, randomly-selected color following many orders!"""
+        """
+        MakeVariousHats produces hats of mysterious, randomly-selected color following many orders!
+        """
         return self._make_various_hats(request_iterator, timeout=timeout, metadata=metadata, credentials=credentials, wait_for_ready=wait_for_ready, compression=compression)
 
     def list_parts(
@@ -397,7 +443,9 @@ class HaberdasherClientSync:
         wait_for_ready: bool | None = None,
         compression: Compression | None = None,
     ) -> _CallIterator[Hat.Part]:
-        """ListParts lists available parts for making a hat."""
+        """
+        ListParts lists available parts for making a hat.
+        """
         return self._list_parts(request, timeout=timeout, metadata=metadata, credentials=credentials, wait_for_ready=wait_for_ready, compression=compression)
 
     def do_nothing(
