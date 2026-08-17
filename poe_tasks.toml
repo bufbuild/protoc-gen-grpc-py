@@ -12,7 +12,7 @@ cmd = "license-header"
 help = "Apply auto-formatting to Python files"
 sequence = [
   { cmd = "ruff check --fix --unsafe-fixes --exit-zero" },
-  { cmd = "ruff format" }
+  { cmd = "ruff format" },
 ]
 
 [tasks.format-toml]
