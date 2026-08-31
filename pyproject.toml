@@ -42,15 +42,15 @@ dev = [
   "example",
 
   "buf-bin==1.72.0",
-  "grpcio==1.83.0",
+  "grpcio==1.83.1",
   "license-header==0.0.1",
   "poethepoet==0.48.0",
   "protoc-gen-py==0.3.0",
   "pytest==9.1.1",
   "pytest-asyncio==1.4.0",
-  "ruff==0.16.4",
-  "tombi==1.4.1",
-  "ty==0.0.74",
+  "ruff==0.16.5",
+  "tombi==1.5.0",
+  "ty==0.0.75",
   "types-grpcio==1.83.0.20260730",
 ]
 
