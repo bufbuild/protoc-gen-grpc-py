@@ -173,18 +173,23 @@ def _generate_client(f: File, service: DescService, *, is_async: bool) -> None:
     with f.scope("class ", _client_name(service, is_async=is_async), ":"):
         _generate_docstring(f, service)
         with f.scope("def __init__(self, channel: ", channel, ") -> None:"):
-            for method in service.methods:
-                with f.scope(
-                    "self._",
-                    _method_local_name(method),
-                    " = channel.",
-                    _channel_method(method),
-                    "(",
-                ):
-                    f.print('"', _method_url(method), '",')
-                    f.print("request_serializer=", method.input, ".to_binary,")
-                    f.print("response_deserializer=", method.output, ".from_binary,")
-                f.print(")")
+            if not service.methods:
+                f.print("pass")
+            else:
+                for method in service.methods:
+                    with f.scope(
+                        "self._",
+                        _method_local_name(method),
+                        " = channel.",
+                        _channel_method(method),
+                        "(",
+                    ):
+                        f.print('"', _method_url(method), '",')
+                        f.print("request_serializer=", method.input, ".to_binary,")
+                        f.print(
+                            "response_deserializer=", method.output, ".from_binary,"
+                        )
+                    f.print(")")
         f.print()
         for method in service.methods:
             _generate_client_method(f, method, is_async=is_async)
