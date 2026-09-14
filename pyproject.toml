@@ -41,20 +41,20 @@ protoc-gen-grpc-py = "protoc_gen_grpc_py:main"
 dev = [
   "example",
 
-  "buf-bin==1.72.0",
+  "buf-bin==1.73.0",
   "grpcio==1.83.1",
   "license-header==0.0.1",
   "poethepoet==0.48.0",
   "protoc-gen-py==0.4.0",
   "pytest==9.1.1",
   "pytest-asyncio==1.4.0",
-  "ruff==0.16.6",
-  "tombi==1.5.2",
-  "ty==0.0.78",
+  "ruff==0.16.7",
+  "tombi==1.5.5",
+  "ty==0.0.80",
   "types-grpcio==1.83.0.20260730",
 ]
 
-docs = ["mkdocstrings-python==2.0.8", "zensical==0.0.59"]
+docs = ["mkdocstrings-python==2.0.8", "zensical==0.0.62"]
 
 [build-system]
 requires = ["uv_build>=0.12.1,<0.13"]
