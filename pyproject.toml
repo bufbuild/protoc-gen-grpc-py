@@ -42,19 +42,19 @@ dev = [
   "example",
 
   "buf-bin==1.73.0",
-  "grpcio==1.83.1",
+  "grpcio==1.84.0",
   "license-header==0.0.1",
   "poethepoet==0.48.0",
-  "protoc-gen-py==0.4.0",
+  "protoc-gen-py==0.5.0",
   "pytest==9.1.1",
   "pytest-asyncio==1.4.0",
-  "ruff==0.16.7",
+  "ruff==0.16.8",
   "tombi==1.5.5",
-  "ty==0.0.80",
+  "ty==0.0.82",
   "types-grpcio==1.83.0.20260730",
 ]
 
-docs = ["mkdocstrings-python==2.0.8", "zensical==0.0.62"]
+docs = ["mkdocstrings-python==2.0.8", "zensical==0.0.63"]
 
 [build-system]
 requires = ["uv_build>=0.12.1,<0.13"]
