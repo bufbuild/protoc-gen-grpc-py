@@ -45,16 +45,16 @@ dev = [
   "grpcio==1.84.0",
   "license-header==0.0.1",
   "poethepoet==0.48.0",
-  "protoc-gen-py==0.5.0",
+  "protoc-gen-py==0.6.0",
   "pytest==9.1.1",
   "pytest-asyncio==1.4.0",
-  "ruff==0.16.9",
-  "tombi==1.5.7",
+  "ruff==0.16.10",
+  "tombi==1.7.2",
   "ty==0.0.84",
-  "types-grpcio==1.83.0.20260730",
+  "types-grpcio==1.84.0.20260928",
 ]
 
-docs = ["mkdocstrings-python==2.0.9", "zensical==0.0.65"]
+docs = ["mkdocstrings-python==2.0.9", "zensical==0.0.67"]
 
 [build-system]
 requires = ["uv_build>=0.12.1,<0.13"]
