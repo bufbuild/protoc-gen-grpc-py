@@ -23,7 +23,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from grpc import StatusCode, method_handlers_generic_handler, stream_stream_rpc_method_handler, stream_unary_rpc_method_handler, unary_stream_rpc_method_handler, unary_unary_rpc_method_handler
-from protobuf.wkt import Empty
+from protobuf.wkt.google.protobuf.empty_pb import Empty
 
 from .haberdasher_pb import Hat, Size
 
