@@ -47,16 +47,16 @@ dev = [
   "protoc-gen-py==0.6.0",
   "pytest==9.1.1",
   "pytest-asyncio==1.4.0",
-  "ruff==0.16.10",
-  "tombi==1.7.2",
-  "ty==0.0.84",
+  "ruff==0.17.0",
+  "tombi==1.8.4",
+  "ty==0.0.86",
   "types-grpcio==1.84.0.20260928",
 ]
 
-docs = ["mkdocstrings-python==2.0.9", "zensical==0.0.67"]
+docs = ["mkdocstrings-python==2.0.9", "zensical==0.0.70"]
 
 [build-system]
-requires = ["uv_build>=0.12.1,<0.13"]
+requires = ["uv_build>=0.13,<0.14"]
 build-backend = "uv_build"
 
 [tool.licenseheader]
