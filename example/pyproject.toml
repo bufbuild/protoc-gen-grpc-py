@@ -9,11 +9,11 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-  "buf-bin==1.74.0",
+  "buf-bin==1.75.0",
   "protoc-gen-grpc-py>=0.0.1",
   "protoc-gen-py>=0.0.1",
   "pytest==9.1.1",
-  "pytest-asyncio==1.4.0",
+  "pytest-asyncio==1.4.1",
 ]
 
 [build-system]
