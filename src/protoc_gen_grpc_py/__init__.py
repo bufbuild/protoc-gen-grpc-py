@@ -25,6 +25,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import TYPE_CHECKING
 
+from protobuf import DescService
 from protobuf.plugin import (
     File,
     Ident,
@@ -37,7 +38,7 @@ from protobuf.plugin import (
 )
 
 if TYPE_CHECKING:
-    from protobuf import DescFile, DescMethod, DescService
+    from protobuf import DescFile, DescMethod
 
 _RESERVED_METHOD_NAMES = frozenset(python_keywords() | {"add_to_server"})
 
@@ -69,6 +70,10 @@ _AIO_UNARY_STREAM_CALL = _GRPC.ident("aio.UnaryStreamCall", type_only=True)
 _AIO_STREAM_UNARY_CALL = _GRPC.ident("aio.StreamUnaryCall", type_only=True)
 _AIO_STREAM_STREAM_CALL = _GRPC.ident("aio.StreamStreamCall", type_only=True)
 
+_DEPRECATED = Module("typing_extensions").ident("deprecated")
+# Use a private alias to prevent collisions with method names in class scope.
+_DEPRECATED_ALIAS = "_deprecated"
+
 _UNIMPLEMENTED_DETAILS = "Method not implemented!"
 
 
@@ -99,6 +104,9 @@ def _generate(schema: Schema[_Options]) -> None:
 
 def _generate_file(f: File, desc: DescFile, options: _Options) -> None:
     f.preamble(desc)
+    if any(s.deprecated or any(m.deprecated for m in s.methods) for s in desc.services):
+        f.print(_DEPRECATED_ALIAS, " = ", _DEPRECATED)
+        f.print()
     for service in desc.services:
         if not options.io or options.io == _IOOption.ASYNC:
             _generate_async_stubs(f, service)
@@ -118,12 +126,14 @@ def _generate_sync_stubs(f: File, service: DescService) -> None:
 
 def _generate_service(f: File, service: DescService, *, is_async: bool) -> None:
     context = _AIO_SERVICER_CONTEXT if is_async else _SERVICER_CONTEXT
+    _maybe_generate_deprecated(f, service)
     with f.scope("class ", _service_name(service, is_async=is_async), ":"):
         _generate_docstring(f, service)
         for method in service.methods:
             # Unary-response handlers are coroutines; streaming handlers are
             # plain functions returning an (async) iterator
             prefix = "async " if is_async and not _response_stream(method) else ""
+            _maybe_generate_deprecated(f, method)
             with f.scope(
                 prefix,
                 "def ",
@@ -170,6 +180,7 @@ def _generate_add_to_server(f: File, service: DescService, *, is_async: bool) ->
 
 def _generate_client(f: File, service: DescService, *, is_async: bool) -> None:
     channel = _AIO_CHANNEL if is_async else _CHANNEL
+    _maybe_generate_deprecated(f, service)
     with f.scope("class ", _client_name(service, is_async=is_async), ":"):
         _generate_docstring(f, service)
         with f.scope("def __init__(self, channel: ", channel, ") -> None:"):
@@ -198,6 +209,7 @@ def _generate_client(f: File, service: DescService, *, is_async: bool) -> None:
 
 def _generate_client_method(f: File, method: DescMethod, *, is_async: bool) -> None:
     request_arg = "request_iterator" if _request_stream(method) else "request"
+    _maybe_generate_deprecated(f, method)
     with f.scope("def ", _method_local_name(method), "("):
         f.print("self,")
         f.print(request_arg, ": ", *_request_type(method, is_async=is_async), ",")
@@ -341,6 +353,19 @@ def _generate_docstring(f: File, desc: DescService | DescMethod) -> None:
     with f.doc():
         for line in comment_lines:
             f.print(line)
+
+
+def _maybe_generate_deprecated(f: File, desc: DescService | DescMethod) -> None:
+    if not desc.deprecated:
+        return
+    name = (
+        desc.type_name
+        if isinstance(desc, DescService)
+        else f"{desc.parent.type_name}.{desc.name}"
+    )
+    # category=None only marks the element for type checkers, without emitting
+    # a DeprecationWarning at runtime.
+    f.print("@", _DEPRECATED_ALIAS, '("', name, ' is deprecated.", category=None)')
 
 
 def main() -> None:
