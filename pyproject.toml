@@ -47,13 +47,13 @@ dev = [
   "protoc-gen-py==0.7.0",
   "pytest==9.2.0",
   "pytest-asyncio==1.4.1.post1",
-  "ruff==0.17.3",
-  "tombi==1.9.8",
-  "ty==0.0.95",
+  "ruff==0.17.4",
+  "tombi==1.11.1",
+  "ty==0.0.99",
   "types-grpcio==1.85.0.20261028",
 ]
 
-docs = ["mkdocstrings-python==2.0.10", "zensical==0.0.74"]
+docs = ["mkdocstrings-python==2.0.10", "zensical==0.1.0"]
 
 [build-system]
 requires = ["uv_build>=0.13,<0.14"]
